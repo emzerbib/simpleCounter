@@ -1,4 +1,3 @@
-from itertools import count
 from fastapi import FastAPI, Request, Depends, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 import models
@@ -33,8 +32,6 @@ def home(request: Request):
     })
 
 
-def fetch_stock_data(id: int):
-    pass
 
 @app.post("/change")
 def change(change_request: CountChangeRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
@@ -44,10 +41,9 @@ def change(change_request: CountChangeRequest, background_tasks: BackgroundTasks
 
     db.add(countertable)
     db.commit()
-    background_tasks.add_task(fetch_stock_data, countertable.id)
     
 
-    return {
-        "code": "success",
-        "message": "read to make changes"
-    }
+    return templates.TemplateResponse("home.html", {
+        "request": change_request,
+        "somevar": 2
+    })
