@@ -1,22 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h3>Welcome to Simple Counter</h3>
 
-<div class="ui big label">
+<div class="ui huge label">
     count
-    <div  class="detail">{{somevar}}</div> 
+    <div  class="detail">{{data}}</div> 
   </div>
 
 <h3>You can add or substract</h3>
 
 
-<div >
-    <button class="ui button">add ↑</button>
+<form action="/add" method="post">
+  <button name="addBtn" class="ui huge button" type="submit">+</button>
+</form>
 
-    <button class="ui button">substract ↓</button>
-        
-
-</div>
+<form action="/substract" method="post">
+  <button name="substractBtn" class="ui huge button" type="submit">-</button>
+</form>
 
 {% endblock %}

@@ -17,3 +17,9 @@ class IncrementalChange(Enum):
 
 class CountChangeRequest(BaseModel):
     change: IncrementalChange
+
+class Addition(BaseModel):
+    change = 1
+
+class Substraction(BaseModel):
+    change = -1

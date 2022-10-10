@@ -1,10 +1,10 @@
-requests==2.28.1
-fastapi==0.85.0
-uvicorn==0.18.3
+requests
+fastapi
+uvicorn
 python-dotenv
 aiofiles
 python-multipart
-jinja2==3.1.2
+jinja2
 Markdown
 pytest
 sqlalchemy

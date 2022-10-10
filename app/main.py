@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, Depends, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 import models
-from models import CounterTable, CountChangeRequest
+from models import CounterTable, Addition, Substraction
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
@@ -12,38 +12,35 @@ models.Base.metadata.create_all(bind=engine)
 templates = Jinja2Templates(directory="templates")
 
 
-
-def get_db():
-    try:
-        db = SessionLocal()
-        yield db
-    finally:
-        db.close()
+count = 0
 
 
 @app.get("/")
 def home(request: Request):
+    global count
     data = {
         "page": "Home page"
     }
     return templates.TemplateResponse("home.html", {
         "request": request,
-        "somevar": 2
+        "data": count
     })
 
-
-
-@app.post("/change")
-def change(change_request: CountChangeRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-
-    countertable = CounterTable()
-    countertable.count = change_request.change
-
-    db.add(countertable)
-    db.commit()
-    
-
+@app.post("/add")
+async def add(request: Request):
+    global count
+    count += 1
     return templates.TemplateResponse("home.html", {
-        "request": change_request,
-        "somevar": 2
+        "request": request,
+        "data": count
     })
+
+@app.post("/substract")
+async def substract(request: Request):
+    global count
+    count -= 1
+    return templates.TemplateResponse("home.html", {
+        "request": request,
+        "data": count
+    })
+
